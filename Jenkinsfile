@@ -41,8 +41,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'nexus-docker', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh '''
                         echo "$NEXUS_PASS" | docker login localhost:8082 -u "$NEXUS_USER" --password-stdin
-                        docker build -t localhost:8082/petclinic-analysis:latest .
-                        docker push localhost:8082/petclinic-analysis:latest
+                        docker build -t localhost:8083/petclinic-analysis:latest .
+                        docker push localhost:8083/petclinic-analysis:latest
                     '''
                 }
             }
