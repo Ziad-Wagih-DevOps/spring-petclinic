@@ -29,10 +29,8 @@ pipeline {
                             -Dsonar.projectKey=petclinic \
                             -Dsonar.host.url=http://localhost:9000 \
                             -Dsonar.login=$SONAR_TOKEN
-                         '''
+                        '''
                     }
-                }
-            }
                 }
             }
         }
@@ -49,7 +47,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'nexus-docker', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh '''
-                        echo "$NEXUS_PASS" | docker login localhost:8082 -u "$NEXUS_USER" --password-stdin
+                        echo "$NEXUS_PASS" | docker login localhost:8083 -u "$NEXUS_USER" --password-stdin
                         docker build -t localhost:8083/petclinic-analysis:latest .
                         docker push localhost:8083/petclinic-analysis:latest
                     '''
@@ -62,10 +60,11 @@ pipeline {
                 sh '''
                     docker rm -f petclinic || true
                     docker run -d -p 7071:7071 --name petclinic --restart always localhost:8083/petclinic-analysis:latest
-                   '''      
+                '''      
             }
         }
     }
+
     post {
         success {
             slackSend channel: '#ci-cd', message: """
