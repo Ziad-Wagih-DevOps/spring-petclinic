@@ -45,7 +45,7 @@ pipeline {
 
         stage('Push Image to Nexus') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus-docker', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'nexus-creds', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                     sh '''
                         echo "$NEXUS_PASS" | docker login localhost:8083 -u "$NEXUS_USER" --password-stdin
                         docker build -t localhost:8083/petclinic-analysis:latest .
