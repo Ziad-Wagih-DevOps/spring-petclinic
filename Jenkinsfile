@@ -57,4 +57,33 @@ pipeline {
             }
         }
     }
+    post {
+        success {
+            slackSend channel: '#ci-cd', message: """
+            ✅ SUCCESS: Pipeline finished successfully!
+            • Job: ${env.JOB_NAME}
+            • Build: #${env.BUILD_NUMBER}
+            • Duration: ${currentBuild.durationString}
+            • URL: ${env.BUILD_URL}
+            """
+        }
+        failure {
+            slackSend channel: '#ci-cd', message: """
+            ❌ FAILURE: Pipeline failed!
+            • Job: ${env.JOB_NAME}
+            • Build: #${env.BUILD_NUMBER}
+            • Duration: ${currentBuild.durationString}
+            • URL: ${env.BUILD_URL}
+            """
+        }
+        unstable {
+            slackSend channel: '#ci-cd', message: """
+            ⚠️ UNSTABLE: Pipeline unstable.
+            • Job: ${env.JOB_NAME}
+            • Build: #${env.BUILD_NUMBER}
+            • Duration: ${currentBuild.durationString}
+            • URL: ${env.BUILD_URL}
+            """
+        }
+    }
 }
