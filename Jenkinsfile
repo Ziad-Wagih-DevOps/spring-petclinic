@@ -23,7 +23,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh 'mvn sonar:sonar -Dsonar.projectKey=petclinic'
+                    sh 'mvn sonar:sonar -Dsonar.projectKey=petclinic -Dsonar.host.url=http://localhost:9000 -Dsonar.login=$SONAR_TOKEN'
                 }
             }
         }
