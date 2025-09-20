@@ -1,0 +1,16 @@
+name: deploy petclinic
+on: 
+  workflow_dispatch:
+
+jobs:
+  build and run:
+    runs-on: self-hosted
+    steps:
+      - name: clone repo
+      - uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t myapp:latest .
+      
+      - name: Run Docker container
+        run: docker run -d -p 7071:7071 myapp:latest
